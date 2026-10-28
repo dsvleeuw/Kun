@@ -82,6 +82,23 @@ const bootstrapPs1 = readFileSync(join(ROOT, 'bootstrap.ps1'), 'utf8');
 assert(bootstrapPs1.includes('Microsoft.PowerShell'), 'bootstrap.ps1 includes pwsh');
 assert(bootstrapPs1.includes('wez.wezterm'), 'bootstrap.ps1 includes wezterm');
 assert(bootstrapPs1.includes('Neovim.Neovim'), 'bootstrap.ps1 includes neovim');
-console.log('  ✓ bootstrap.ps1 contains core winget package definitions');
+assert(bootstrapPs1.includes('firstmate'), 'bootstrap.ps1 links firstmate');
+assert(bootstrapPs1.includes('lavish-axi'), 'bootstrap.ps1 links lavish-axi');
+console.log('  ✓ bootstrap.ps1 contains core winget package definitions & firstmate/lavish links');
+
+// 8. Lavish HTML artifacts check (00_, 01_, 02_, 03_)
+const lavishArtifacts = [
+  '00_OVERZICHT_ARCHITECTUUR.html',
+  '01_FIRSTMATE_WINDOWS_CREW.html',
+  '02_LAVISH_AXI_WORKFLOW.html',
+  '03_WINDOWS_DEV_SETUP.html'
+];
+for (const artifact of lavishArtifacts) {
+  const content = readFileSync(join(ROOT, artifact), 'utf8');
+  assert(content.includes('<!DOCTYPE html>'), `${artifact} is valid HTML5`);
+  assert(content.includes('clickable-node'), `${artifact} contains clickable elements for user feedback`);
+  assert(content.includes('addSuggestion'), `${artifact} contains suggestion engine`);
+  console.log(`  ✓ Lavish artifact ${artifact} verified (clickable + suggestions)`);
+}
 
 console.log('\nAll configurations validated successfully!');

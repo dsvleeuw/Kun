@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01 - Firstmate voor Windows | Multi-Agent Fleet & Worktree Orchestratie</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/daisyui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/themes.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.2.4/dist/index.global.js"></script>
+  <style>
+    :root {
+      --rp-base: #232136;
+      --rp-surface: #2a273f;
+      --rp-overlay: #393552;
+      --rp-muted: #6e6a86;
+      --rp-subtle: #908caa;
+      --rp-text: #e0def4;
+      --rp-love: #eb6f92;
+      --rp-gold: #f6c177;
+      --rp-rose: #ebbcba;
+      --rp-pine: #3e8fb0;
+      --rp-foam: #9ccfd8;
+      --rp-iris: #c4a7e7;
+    }
+    body {
+      background-color: var(--rp-base);
+      color: var(--rp-text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .clickable-node {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .clickable-node:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(196, 167, 231, 0.2);
+      border-color: var(--rp-iris) !important;
+    }
+    .selected-node {
+      border-color: var(--rp-foam) !important;
+      box-shadow: 0 0 0 3px rgba(156, 207, 216, 0.3);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#393552] pb-6">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded bg-[#393552] text-[#c4a7e7] border border-[#c4a7e7]/30">LAVISH 01</span>
+          <span class="text-xs text-[#908caa]">dsvleeuw/Kun · Firstmate Multi-Agent Distro</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold mt-1 text-[#e0def4] tracking-tight">
+          Firstmate Fleet Orchestratie op Windows
+        </h1>
+        <p class="text-sm text-[#908caa] mt-1">
+          Praat met 1 First Mate agent. Laat een complete crew parallel werken in geïsoleerde git worktrees.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href="00_OVERZICHT_ARCHITECTUUR.html" class="btn btn-sm btn-outline text-[#c4a7e7] border-[#393552]">00 Overzicht</a>
+        <a href="01_FIRSTMATE_WINDOWS_CREW.html" class="btn btn-sm btn-primary">01 Firstmate Fleet</a>
+        <a href="02_LAVISH_AXI_WORKFLOW.html" class="btn btn-sm btn-outline text-[#9ccfd8] border-[#393552]">02 Lavish AXI</a>
+        <a href="03_WINDOWS_DEV_SETUP.html" class="btn btn-sm btn-outline text-[#f6c177] border-[#393552]">03 Setup Stappen</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <div class="lg:col-span-2 space-y-8">
+
+      <!-- Fleet Architecture SVG -->
+      <section id="section-fleet-diagram" class="card bg-[#2a273f] border border-[#393552] p-6 shadow-xl">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h2 class="text-xl font-bold text-[#c4a7e7]">Firstmate Fleet Model</h2>
+            <p class="text-xs text-[#908caa]">Klik op de rollen om details te bekijken en feedback te geven</p>
+          </div>
+          <span class="badge badge-sm badge-outline text-[#c4a7e7]">Distro Model</span>
+        </div>
+
+        <div class="w-full overflow-x-auto py-2">
+          <svg viewBox="0 0 780 340" class="w-full h-auto max-w-full" xmlns="http://www.w3.org/2000/svg">
+            <!-- Captain (User) -->
+            <rect id="node-captain" class="clickable-node" x="20" y="110" width="180" height="120" rx="12" fill="#232136" stroke="#f6c177" stroke-width="2" onclick="selectNode('node-captain', 'Captain (Jij)', 'De menselijke bestuurder. Je geeft doelen en opdrachten in natuurlijke taal. Je hoeft nooit individuele tabbladen of werkmappen te micromanagen.')"/>
+            <text x="40" y="145" fill="#f6c177" font-size="16" font-weight="bold">Captain (Jij)</text>
+            <text x="40" y="170" fill="#e0def4" font-size="12">✦ 1 Terminal Sessie</text>
+            <text x="40" y="190" fill="#e0def4" font-size="12">✦ Neemt beslissingen</text>
+            <text x="40" y="210" fill="#908caa" font-size="11">Ontvangt PRs / merges</text>
+
+            <!-- Arrow Captain -> First Mate -->
+            <line x1="200" y1="170" x2="270" y2="170" stroke="#c4a7e7" stroke-width="2" marker-end="url(#arrow)"/>
+            <text x="210" y="160" fill="#908caa" font-size="10">Opdracht</text>
+
+            <!-- First Mate (Supervisor) -->
+            <rect id="node-firstmate" class="clickable-node" x="270" y="70" width="220" height="200" rx="12" fill="#232136" stroke="#c4a7e7" stroke-width="2" onclick="selectNode('node-firstmate', 'First Mate (Liaison Agent)', 'Draait in je primaire terminal (Claude Code, Pi, Codex of Grok). Ontleedt taken, plant worktrees, dispatcht crewmates en bewaakt de voortgang via zero-token watchers.')"/>
+            <text x="290" y="105" fill="#c4a7e7" font-size="16" font-weight="bold">First Mate (Liaison)</text>
+            <text x="290" y="130" fill="#e0def4" font-size="12">✦ Taak ontleding & intake</text>
+            <text x="290" y="155" fill="#e0def4" font-size="12">✦ Zero-token watcher</text>
+            <text x="290" y="180" fill="#e0def4" font-size="12">✦ Reconciliatie & review</text>
+            <text x="290" y="205" fill="#e0def4" font-size="12">✦ /bearings, /afk, /stow</text>
+            <text x="290" y="235" fill="#908caa" font-size="11">AGENTS.md contract</text>
+
+            <!-- Arrows First Mate -> Crewmates -->
+            <line x1="490" y1="130" x2="550" y2="70" stroke="#9ccfd8" stroke-width="1.5"/>
+            <line x1="490" y1="170" x2="550" y2="170" stroke="#9ccfd8" stroke-width="1.5"/>
+            <line x1="490" y1="210" x2="550" y2="270" stroke="#9ccfd8" stroke-width="1.5"/>
+
+            <!-- Crewmate 1 -->
+            <rect id="node-crewmate-1" class="clickable-node" x="550" y="20" width="200" height="90" rx="10" fill="#232136" stroke="#9ccfd8" stroke-width="1.5" onclick="selectNode('node-crewmate-1', 'Crewmate 1: Bugfix Taak', 'Draait in geïsoleerde worktree .treehouse/worktree-1 op branch fm/fix-auth. Test en commit zelfstandig.')"/>
+            <text x="565" y="45" fill="#9ccfd8" font-size="13" font-weight="bold">Crewmate 1 (Worktree A)</text>
+            <text x="565" y="68" fill="#e0def4" font-size="11">Taak: Bugfix in auth flow</text>
+            <text x="565" y="88" fill="#908caa" font-size="10">Branch: fm/fix-auth (Herdr tab 1)</text>
+
+            <!-- Crewmate 2 -->
+            <rect id="node-crewmate-2" class="clickable-node" x="550" y="125" width="200" height="90" rx="10" fill="#232136" stroke="#9ccfd8" stroke-width="1.5" onclick="selectNode('node-crewmate-2', 'Crewmate 2: Feature Taak', 'Draait in worktree-2 op branch fm/add-endpoint. Voert tests uit en maakt PR.')"/>
+            <text x="565" y="150" fill="#9ccfd8" font-size="13" font-weight="bold">Crewmate 2 (Worktree B)</text>
+            <text x="565" y="173" fill="#e0def4" font-size="11">Taak: Nieuw API endpoint</text>
+            <text x="565" y="193" fill="#908caa" font-size="10">Branch: fm/add-endpoint (Herdr tab 2)</text>
+
+            <!-- Crewmate 3 -->
+            <rect id="node-crewmate-3" class="clickable-node" x="550" y="230" width="200" height="90" rx="10" fill="#232136" stroke="#9ccfd8" stroke-width="1.5" onclick="selectNode('node-crewmate-3', 'Crewmate 3: Scout / Onderzoek', 'Onderzoekt performance regressie, produceert een standalone onderzoeksrapport zonder code te wijzigen.')"/>
+            <text x="565" y="255" fill="#9ccfd8" font-size="13" font-weight="bold">Crewmate 3 (Scout Taak)</text>
+            <text x="565" y="278" fill="#e0def4" font-size="11">Onderzoek: DB latency audit</text>
+            <text x="565" y="298" fill="#908caa" font-size="10">Rapport: docs/scout-report.md</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Firstmate on Windows: Operational Details -->
+      <section id="section-windows-mechanics" class="space-y-4">
+        <h2 class="text-xl font-bold text-[#ebbcba]">Hoe Firstmate Native op Windows Werkt</h2>
+
+        <div id="card-herdr-backend" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5" onclick="selectNode('card-herdr-backend', 'Herdr Multiplexer op Windows', 'Herdr is Kun Chen\'s terminal workspace manager. Op Windows draait Herdr native en beheert het de tabbladen waarin elke crewmate zijn agent harness uitvoert.')">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-[#e0def4]">1. Herdr als Windows Sessie Backend</h3>
+            <span class="badge badge-sm badge-rosepine">Native Windows</span>
+          </div>
+          <p class="text-xs text-[#908caa] mt-1">
+            Op Windows gebruikt Firstmate Herdr (reeds geconfigureerd in <code>home/.config/herdr/config.toml</code>) om per worker een aparte sessie aan te maken. Je kunt tussen workers schakelen met <code>ctrl+b</code> prefix keys.
+          </p>
+          <div class="mt-2 text-xs font-mono bg-[#232136] p-2 rounded text-[#9ccfd8]">
+            fm herdr  # opent de actieve crew workspaces
+          </div>
+        </div>
+
+        <div id="card-treehouse-worktrees" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5" onclick="selectNode('card-treehouse-worktrees', 'Treehouse Git Worktree Pooling', 'Treehouse houdt een herbruikbare pool van git worktrees aan (~/.treehouse). Hierdoor hoeven npm install en build caches niet opnieuw gegenereerd te worden per sessie.')">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-[#e0def4]">2. Geïsoleerde Git Worktrees (Treehouse)</h3>
+            <span class="badge badge-sm badge-success text-black font-semibold">Geen Conflicten</span>
+          </div>
+          <p class="text-xs text-[#908caa] mt-1">
+            Elke parallelle worker werkt in een eigen submap. Je actieve werkmap blijft onaangeroerd totdat de taak gereed is en goedgekeurd wordt.
+          </p>
+        </div>
+
+        <div id="card-zerotoken-watcher" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5" onclick="selectNode('card-zerotoken-watcher', 'Zero-Token Event Watcher', 'De watcher slaapt op de achtergrond en kost 0 tokens totdat een worker klaar is of een beslissing vereist.')">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-[#e0def4]">3. Token-Efficiënte Supervisie</h3>
+            <span class="badge badge-sm badge-info text-black font-semibold">Zero-Token Sleep</span>
+          </div>
+          <p class="text-xs text-[#908caa] mt-1">
+            De First Mate pollt niet voortdurend met dure LLM API calls. Een lokale event-watcher wekt de First Mate alleen als er echt een resultaat of beslissing is.
+          </p>
+        </div>
+      </section>
+
+      <!-- Firstmate Decisions -->
+      <section id="section-fm-decisions" class="card bg-[#2a273f] border border-[#393552] p-6 shadow-xl space-y-5">
+        <h2 class="text-xl font-bold text-[#f6c177]">⚡ Firstmate Configuratie Beslissingen</h2>
+
+        <!-- Decision: Concurrency -->
+        <div class="border border-[#393552] rounded-lg p-4 bg-[#232136]/60">
+          <h3 class="text-sm font-bold text-[#e0def4] mb-2">Maximale Parallelle Workers (Concurrency Limit)</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_concurrency" value="2" checked class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Fleet Concurrency', '2 workers tegelijk (Aanbevolen veilige standaard)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">2 Workers (Aanbevolen)</div>
+                <div class="text-[11px] text-[#908caa]">Ideaal voor token budgets en API rate-limits.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_concurrency" value="4" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Fleet Concurrency', '4 workers tegelijk (snelle throughput)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">4 Workers</div>
+                <div class="text-[11px] text-[#908caa]">Voor zwaardere multi-file projecten.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_concurrency" value="8" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Fleet Concurrency', '8 workers (grootste vloot)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">8+ Workers</div>
+                <div class="text-[11px] text-[#908caa]">Maximale parallelle kracht.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Decision: Primary Harness -->
+        <div class="border border-[#393552] rounded-lg p-4 bg-[#232136]/60">
+          <h3 class="text-sm font-bold text-[#e0def4] mb-2">Primaire First Mate Harness</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_harness" value="claude" checked class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Primaire First Mate', 'Claude Code (claude)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">Claude Code</div>
+                <div class="text-[11px] text-[#908caa]">Co-primary aanbeveling met tracked stop hooks.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_harness" value="pi" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Primaire First Mate', 'Pi Agent (pi met Pi Calm)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">Pi Agent</div>
+                <div class="text-[11px] text-[#908caa]">Ondersteunt Pi Calm en supervision model pinning.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_harness" value="codex" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Primaire First Mate', 'OpenAI Codex CLI (codex)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">Codex CLI</div>
+                <div class="text-[11px] text-[#908caa]">Geoptimaliseerd met model context overrides.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Column: Interactive Suggestion Drawer -->
+    <aside class="space-y-6">
+      <div class="card bg-[#2a273f] border border-[#393552] p-5 shadow-xl sticky top-6">
+        <div class="flex items-center justify-between pb-3 border-b border-[#393552]">
+          <h3 class="font-bold text-sm text-[#e0def4] flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#c4a7e7] animate-pulse"></span>
+            Geselecteerd Onderdeel
+          </h3>
+          <span id="selected-badge" class="badge badge-xs badge-outline text-[#c4a7e7]">Klik een rol/stap</span>
+        </div>
+
+        <div id="selection-details" class="my-4 space-y-2">
+          <div class="text-xs font-semibold text-[#908caa]">Element ID:</div>
+          <div id="elem-id-display" class="font-mono text-xs text-[#c4a7e7] bg-[#232136] px-2 py-1 rounded">
+            node-captain
+          </div>
+          <div class="text-xs font-semibold text-[#908caa] mt-2">Toelichting:</div>
+          <div id="elem-title-display" class="text-xs text-[#e0def4]">
+            Captain (Jij): Je geeft doelen en opdrachten in natuurlijke taal.
+          </div>
+        </div>
+
+        <!-- Suggestion Input Form -->
+        <div class="space-y-3 pt-3 border-t border-[#393552]">
+          <label class="text-xs font-semibold text-[#e0def4] block">Jouw suggestie voor Firstmate:</label>
+          <select id="suggestion-type" class="select select-sm select-bordered w-full bg-[#232136] text-xs">
+            <option value="Configuratie">⚙️ Configuratiekeuze</option>
+            <option value="Workflow">🔄 Workflow aanpassing</option>
+            <option value="Vraag">❓ Vraag over Firstmate</option>
+          </select>
+
+          <textarea id="suggestion-text" rows="3" class="textarea textarea-bordered w-full bg-[#232136] text-xs text-[#e0def4]" placeholder="Typ een suggestie over workers, worktrees of harness..."></textarea>
+
+          <button onclick="addSuggestion()" class="btn btn-sm btn-primary w-full text-xs font-bold">
+            ＋ Voeg Suggestie Toe
+          </button>
+        </div>
+
+        <!-- Staged Suggestions -->
+        <div class="mt-6 pt-4 border-t border-[#393552] space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-[#ebbcba]">Staged Feedback (<span id="suggestion-count">0</span>)</h4>
+            <button onclick="clearSuggestions()" class="text-[10px] text-[#908caa] hover:text-[#eb6f92]">Wissen</button>
+          </div>
+
+          <div id="staged-suggestions-list" class="max-h-48 overflow-y-auto space-y-2 text-xs">
+            <div class="text-[11px] text-[#908caa] italic">Nog geen suggesties.</div>
+          </div>
+
+          <button onclick="copyFeedbackForAgent()" class="btn btn-sm btn-outline text-[#c4a7e7] border-[#c4a7e7] w-full text-xs mt-2">
+            📋 Kopieer Feedback voor Agent
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script>
+    let currentSelectedId = 'node-captain';
+    let currentSelectedTitle = 'Captain (Jij)';
+    let suggestions = [];
+    let decisions = {
+      'Fleet Concurrency': '2 workers tegelijk (Aanbevolen veilige standaard)',
+      'Primaire First Mate': 'Claude Code (claude)'
+    };
+
+    function selectNode(id, title, description) {
+      if (currentSelectedId) {
+        const prev = document.getElementById(currentSelectedId);
+        if (prev) prev.classList.remove('selected-node');
+      }
+
+      currentSelectedId = id;
+      currentSelectedTitle = title;
+
+      const elem = document.getElementById(id);
+      if (elem) elem.classList.add('selected-node');
+
+      document.getElementById('elem-id-display').textContent = id;
+      document.getElementById('elem-title-display').textContent = title + ": " + description;
+      document.getElementById('selected-badge').textContent = 'Geselecteerd';
+      document.getElementById('selected-badge').className = 'badge badge-xs badge-primary';
+    }
+
+    function recordDecision(key, value) {
+      decisions[key] = value;
+    }
+
+    function addSuggestion() {
+      const text = document.getElementById('suggestion-text').value.trim();
+      const type = document.getElementById('suggestion-type').value;
+
+      if (!text) {
+        alert('Voer een suggestie in.');
+        return;
+      }
+
+      suggestions.push({
+        elementId: currentSelectedId,
+        title: currentSelectedTitle,
+        type: type,
+        text: text,
+        timestamp: new Date().toLocaleTimeString()
+      });
+
+      document.getElementById('suggestion-text').value = '';
+      renderSuggestions();
+    }
+
+    function renderSuggestions() {
+      const container = document.getElementById('staged-suggestions-list');
+      document.getElementById('suggestion-count').textContent = suggestions.length;
+
+      if (suggestions.length === 0) {
+        container.innerHTML = '<div class="text-[11px] text-[#908caa] italic">Nog geen suggesties.</div>';
+        return;
+      }
+
+      container.innerHTML = suggestions.map(s => `
+        <div class="p-2 rounded bg-[#232136] border border-[#393552] text-[11px]">
+          <div class="flex justify-between items-center text-[#c4a7e7] font-semibold mb-1">
+            <span>[${s.type}] ${s.elementId}</span>
+            <span class="text-[#908caa] text-[9px]">${s.timestamp}</span>
+          </div>
+          <div class="text-[#e0def4]">${s.text}</div>
+        </div>
+      `).join('');
+    }
+
+    function clearSuggestions() {
+      suggestions = [];
+      renderSuggestions();
+    }
+
+    function copyFeedbackForAgent() {
+      let output = "=== FIRSTMATE FLEET CONFIGURATIE FEEDBACK ===\n\n";
+      output += "## Beslissingen:\n";
+      for (const [k, v] of Object.entries(decisions)) {
+        output += `- ${k}: ${v}\n`;
+      }
+      output += "\n## Suggesties & Verzoeken:\n";
+      if (suggestions.length === 0) {
+        output += "Geen losse suggesties toegevoegd.\n";
+      } else {
+        suggestions.forEach(s => {
+          output += `- [${s.type}] ${s.elementId} (${s.title}): ${s.text}\n`;
+        });
+      }
+
+      navigator.clipboard.writeText(output).then(() => {
+        alert("Feedback gekopieerd naar klembord!");
+      }).catch(err => {
+        prompt("Kopieer deze feedback handmatig:", output);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      selectNode('node-captain', 'Captain (Jij)', 'Je geeft opdrachten aan de First Mate in natuurlijke taal.');
+    });
+  </script>
+</body>
+</html>
