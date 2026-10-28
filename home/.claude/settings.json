@@ -1,0 +1,7 @@
+{
+  "theme": "dark-ansi",
+  "statusLine": {
+    "type": "command",
+    "command": "node -e \"let b='';process.stdin.on('data',c=>b+=c);process.stdin.on('end',()=>{try{let d=JSON.parse(b),m=d?.model?.display_name||'',u=d?.context_window?.used_percentage;process.stdout.write(u!=null?m+' | ctx: '+Math.round(u)+'% used':m)}catch{}})\""
+  }
+}

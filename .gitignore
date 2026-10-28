@@ -1,0 +1,21 @@
+# OS artifacts
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Node & dependencies
+node_modules/
+npm-debug.log*
+
+# Backups created by bootstrap.ps1
+*.backup-*
+
+# Cache directories
+.cache/
+kun-cache/
+
+# Pi runtime preference file
+/home/.pi/agent/calm
+
+# Validation evidence
+.no-mistakes/
