@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>00 - Kun Chen Windows Agentic Engineering Suite | Architectuur & Overzicht</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/daisyui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/themes.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.2.4/dist/index.global.js"></script>
+  <style>
+    :root {
+      --rp-base: #232136;
+      --rp-surface: #2a273f;
+      --rp-overlay: #393552;
+      --rp-muted: #6e6a86;
+      --rp-subtle: #908caa;
+      --rp-text: #e0def4;
+      --rp-love: #eb6f92;
+      --rp-gold: #f6c177;
+      --rp-rose: #ebbcba;
+      --rp-pine: #3e8fb0;
+      --rp-foam: #9ccfd8;
+      --rp-iris: #c4a7e7;
+    }
+    body {
+      background-color: var(--rp-base);
+      color: var(--rp-text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .clickable-node {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .clickable-node:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(196, 167, 231, 0.2);
+      border-color: var(--rp-iris) !important;
+    }
+    .selected-node {
+      border-color: var(--rp-foam) !important;
+      box-shadow: 0 0 0 3px rgba(156, 207, 216, 0.3);
+    }
+    .badge-rosepine {
+      background-color: var(--rp-overlay);
+      color: var(--rp-iris);
+      border: 1px solid var(--rp-iris);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+  <!-- Top Header Navigation -->
+  <header class="max-w-7xl mx-auto mb-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#393552] pb-6">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded bg-[#393552] text-[#c4a7e7] border border-[#c4a7e7]/30">LAVISH 00</span>
+          <span class="text-xs text-[#908caa]">dsvleeuw/Kun · Windows Agentic Stack</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold mt-1 text-[#e0def4] tracking-tight">
+          Master Architectuur & Setup Overzicht
+        </h1>
+        <p class="text-sm text-[#908caa] mt-1">
+          Interactieve Lavish blueprint: klik op onderdelen om suggesties te doen en selecteer jouw beslissingen.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href="00_OVERZICHT_ARCHITECTUUR.html" class="btn btn-sm btn-primary">00 Overzicht</a>
+        <a href="01_FIRSTMATE_WINDOWS_CREW.html" class="btn btn-sm btn-outline text-[#c4a7e7] border-[#393552]">01 Firstmate Fleet</a>
+        <a href="02_LAVISH_AXI_WORKFLOW.html" class="btn btn-sm btn-outline text-[#9ccfd8] border-[#393552]">02 Lavish AXI</a>
+        <a href="03_WINDOWS_DEV_SETUP.html" class="btn btn-sm btn-outline text-[#f6c177] border-[#393552]">03 Setup Stappen</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <!-- Left & Middle: Architecture Diagram & Steps (2 cols) -->
+    <div class="lg:col-span-2 space-y-8">
+
+      <!-- Interactive SVG Architecture Flow -->
+      <section id="section-svg-architecture" class="card bg-[#2a273f] border border-[#393552] p-6 shadow-xl">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h2 class="text-xl font-bold text-[#ebbcba]">Systeemarchitectuur op Windows</h2>
+            <p class="text-xs text-[#908caa]">Klik op een component in het schema om suggesties toe te voegen</p>
+          </div>
+          <span class="badge badge-sm badge-rosepine">Interactief SVG Schema</span>
+        </div>
+
+        <div class="w-full overflow-x-auto py-2">
+          <svg viewBox="0 0 820 420" class="w-full h-auto max-w-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="grad-win" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#393552"/>
+                <stop offset="100%" stop-color="#2a273f"/>
+              </linearGradient>
+              <linearGradient id="grad-iris" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#c4a7e7" stop-opacity="0.2"/>
+                <stop offset="100%" stop-color="#393552"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Box 1: Windows Host -->
+            <rect id="node-windows-host" class="clickable-node" x="10" y="10" width="800" height="400" rx="16" fill="url(#grad-win)" stroke="#393552" stroke-width="2" onclick="selectNode('node-windows-host', 'Windows 10/11 Host OS', 'Besturingssysteem met NTFS junctions, PowerShell 7 en winget package management.')"/>
+            <text x="35" y="42" fill="#908caa" font-size="14" font-weight="bold">WINDOWS 10 / 11 HOST OMGEVING (dsvleeuw/Kun)</text>
+
+            <!-- Box 2: Terminal & Shell Layer -->
+            <rect id="node-terminal-layer" class="clickable-node" x="40" y="65" width="360" height="150" rx="12" fill="#232136" stroke="#9ccfd8" stroke-width="1.5" onclick="selectNode('node-terminal-layer', 'Terminal & Shell (WezTerm + PS7)', 'WezTerm met Rose Pine Moon thema, 0.8 opacity, Hack Nerd Font en PowerShell 7 met PSReadLine autosuggesties (Ctrl+F) en Starship prompt.')"/>
+            <text x="60" y="95" fill="#9ccfd8" font-size="16" font-weight="bold">Terminal & Shell Laag</text>
+            <text x="60" y="120" fill="#e0def4" font-size="13">✦ WezTerm (pwsh default, unfocused dim)</text>
+            <text x="60" y="145" fill="#e0def4" font-size="13">✦ PowerShell 7 (PSReadLine Ctrl+F autosuggest)</text>
+            <text x="60" y="170" fill="#e0def4" font-size="13">✦ Starship prompt ([❯](purple)) & Aliassen (cc, co, m)</text>
+            <text x="60" y="195" fill="#908caa" font-size="11">Config: ~/.wezterm.lua & $PROFILE</text>
+
+            <!-- Box 3: Editor Layer -->
+            <rect id="node-editor-layer" class="clickable-node" x="420" y="65" width="360" height="150" rx="12" fill="#232136" stroke="#ebbcba" stroke-width="1.5" onclick="selectNode('node-editor-layer', 'Editor (Neovim Rose Pine Moon)', 'Neovim 0.10+ met lazy.nvim, snacks.picker, oil.nvim, neogit, diffview, gitsigns blame en automatische Windows klembord sync.')"/>
+            <text x="440" y="95" fill="#ebbcba" font-size="16" font-weight="bold">Editor Laag (Neovim)</text>
+            <text x="440" y="120" fill="#e0def4" font-size="13">✦ Rose Pine Moon (Transparante achtergrond)</text>
+            <text x="440" y="145" fill="#e0def4" font-size="13">✦ Snacks Picker (<leader>f, <leader>s grep)</text>
+            <text x="440" y="170" fill="#e0def4" font-size="13">✦ Oil.nvim (<leader>e) & Neogit (<leader>g)</text>
+            <text x="440" y="195" fill="#908caa" font-size="11">Config: %LOCALAPPDATA%\nvim (~/.config/nvim)</text>
+
+            <!-- Connecting Arrow down -->
+            <line x1="220" y1="215" x2="220" y2="245" stroke="#c4a7e7" stroke-width="2" stroke-dasharray="4,4"/>
+            <line x1="600" y1="215" x2="600" y2="245" stroke="#c4a7e7" stroke-width="2" stroke-dasharray="4,4"/>
+
+            <!-- Box 4: Multi-Agent Crew & Firstmate -->
+            <rect id="node-firstmate-crew" class="clickable-node" x="40" y="245" width="360" height="145" rx="12" fill="#232136" stroke="#c4a7e7" stroke-width="1.5" onclick="selectNode('node-firstmate-crew', 'Firstmate Multi-Agent Crew', 'Kun Chen agent distro: 1 First Mate liaiseert met Captain (jou), spawnt autonomous crewmates in geïsoleerde git worktrees via Herdr of tmux.')"/>
+            <text x="60" y="275" fill="#c4a7e7" font-size="16" font-weight="bold">Firstmate Agent Crew</text>
+            <text x="60" y="300" fill="#e0def4" font-size="13">✦ First Mate Liaison (Claude, Pi, Codex, Grok)</text>
+            <text x="60" y="325" fill="#e0def4" font-size="13">✦ Geïsoleerde Git Worktrees (Treehouse)</text>
+            <text x="60" y="350" fill="#e0def4" font-size="13">✦ Zero-token Watcher & Herdr workspace panes</text>
+            <text x="60" y="372" fill="#908caa" font-size="11">Commando: fm start, fm status, fm bearings</text>
+
+            <!-- Box 5: Lavish-AXI Visual Review -->
+            <rect id="node-lavish-axi" class="clickable-node" x="420" y="245" width="360" height="145" rx="12" fill="#232136" stroke="#f6c177" stroke-width="1.5" onclick="selectNode('node-lavish-axi', 'Lavish-AXI Review Engine', 'Lokale browser review van HTML artefacten. Klik op elementen, markeer tekst, bewerk Mermaid whiteboards en stuur beknopte feedback naar agents.')"/>
+            <text x="440" y="275" fill="#f6c177" font-size="16" font-weight="bold">Lavish-AXI Review Engine</text>
+            <text x="440" y="300" fill="#e0def4" font-size="13">✦ Lokale Browser Review (geen tokenverspilling)</text>
+            <text x="440" y="325" fill="#e0def4" font-size="13">✦ Element Pinpointing & Tekst suggesties</text>
+            <text x="440" y="350" fill="#e0def4" font-size="13">✦ Mermaid Whiteboard & Live Canvas Editing</text>
+            <text x="440" y="372" fill="#908caa" font-size="11">Commando: lavish .\00_OVERZICHT.html</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 4 Execution Steps / Milestones -->
+      <section id="section-execution-steps" class="space-y-4">
+        <h2 class="text-xl font-bold text-[#ebbcba] flex items-center gap-2">
+          <span>Stappenplan: Van Zero naar Ultieme Windows Coding Stack</span>
+        </h2>
+
+        <!-- Step 1 Card -->
+        <div id="step-card-1" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5 hover:border-[#c4a7e7]" onclick="selectNode('step-card-1', 'Stap 1: Package Bootstrap (winget)', 'Automatische installatie van alle CLI tools via winget: WezTerm, Neovim, PowerShell 7, Starship, ripgrep, fd, fzf, jq, lazygit, Hack Nerd Font en Node.js.')">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-[#393552] text-[#9ccfd8] font-bold flex items-center justify-center text-sm border border-[#9ccfd8]/40">01</span>
+              <div>
+                <h3 class="font-bold text-base text-[#e0def4]">Pakketinstallatie via Winget</h3>
+                <p class="text-xs text-[#908caa]">Alle kern-tools in één geautomatiseerd PowerShell commando</p>
+              </div>
+            </div>
+            <span class="badge badge-sm badge-success text-black font-semibold">Gereed in bootstrap.ps1</span>
+          </div>
+          <div class="mt-3 text-xs bg-[#232136] p-2.5 rounded font-mono text-[#9ccfd8]">
+            winget install Microsoft.PowerShell wez.wezterm Neovim.Neovim Starship.Starship Hacker.HackFonts
+          </div>
+        </div>
+
+        <!-- Step 2 Card -->
+        <div id="step-card-2" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5 hover:border-[#c4a7e7]" onclick="selectNode('step-card-2', 'Stap 2: Configuraties koppelen (NTFS Junctions)', 'Koppelen van dotfiles repository mappen aan gebruikersprofiel mappen (~/.config, %LOCALAPPDATA%\nvim, ~/.wezterm.lua, ~/.claude) via NTFS junctions zonder Administrator vereiste.')">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-[#393552] text-[#c4a7e7] font-bold flex items-center justify-center text-sm border border-[#c4a7e7]/40">02</span>
+              <div>
+                <h3 class="font-bold text-base text-[#e0def4]">Dotfiles Koppeling (Edit-in-Place)</h3>
+                <p class="text-xs text-[#908caa]">NTFS Directory Junctions verbinden direct met ~/.dotfiles</p>
+              </div>
+            </div>
+            <span class="badge badge-sm badge-success text-black font-semibold">Gereed in bootstrap.ps1</span>
+          </div>
+          <div class="mt-3 text-xs bg-[#232136] p-2.5 rounded font-mono text-[#c4a7e7]">
+            New-Item -ItemType Junction -Path "$env:LOCALAPPDATA\nvim" -Target "$HOME\.dotfiles\home\.config\nvim"
+          </div>
+        </div>
+
+        <!-- Step 3 Card -->
+        <div id="step-card-3" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5 hover:border-[#c4a7e7]" onclick="selectNode('step-card-3', 'Stap 3: Multi-Agent Distro (Firstmate)', 'Firstmate integratie op Windows: First Mate supervisor contract in AGENTS.md, worktree isolatie, Herdr session backend en fm.ps1 launcher.')">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-[#393552] text-[#f6c177] font-bold flex items-center justify-center text-sm border border-[#f6c177]/40">03</span>
+              <div>
+                <h3 class="font-bold text-base text-[#e0def4]">Firstmate Multi-Agent Distro</h3>
+                <p class="text-xs text-[#908caa]">Spawnt autonome crewmates in parallelle worktrees</p>
+              </div>
+            </div>
+            <span class="badge badge-sm badge-rosepine">Geïntegreerd in firstmate/</span>
+          </div>
+          <div class="mt-3 text-xs bg-[#232136] p-2.5 rounded font-mono text-[#f6c177]">
+            fm start claude  # of: fm status, fm bearings
+          </div>
+        </div>
+
+        <!-- Step 4 Card -->
+        <div id="step-card-4" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5 hover:border-[#c4a7e7]" onclick="selectNode('step-card-4', 'Stap 4: Lavish-AXI Visual Review Loop', 'Lavish Editor voor Windows: open HTML artefacten in lokale browser, bewerk Mermaid whiteboards en stuur feedback direct terug naar agents.')">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-full bg-[#393552] text-[#eb6f92] font-bold flex items-center justify-center text-sm border border-[#eb6f92]/40">04</span>
+              <div>
+                <h3 class="font-bold text-base text-[#e0def4]">Lavish-AXI Review Engine</h3>
+                <p class="text-xs text-[#908caa]">Interactieve browser review voor plannen, diagrammen en UI</p>
+              </div>
+            </div>
+            <span class="badge badge-sm badge-rosepine">Geïntegreerd in lavish-axi/</span>
+          </div>
+          <div class="mt-3 text-xs bg-[#232136] p-2.5 rounded font-mono text-[#eb6f92]">
+            lavish .\00_OVERZICHT_ARCHITECTUUR.html
+          </div>
+        </div>
+      </section>
+
+      <!-- Decisions Matrix: What Daniël Needs to Decide -->
+      <section id="section-decisions" class="card bg-[#2a273f] border border-[#393552] p-6 shadow-xl space-y-6">
+        <div>
+          <h2 class="text-xl font-bold text-[#f6c177] flex items-center gap-2">
+            <span>⚡ Belangrijke Beslissingen voor Jou</span>
+          </h2>
+          <p class="text-xs text-[#908caa] mt-1">
+            Kies jouw voorkeuren hieronder. Jouw keuzes worden automatisch verzameld en klaargezet voor de agent.
+          </p>
+        </div>
+
+        <!-- Decision 1 -->
+        <div class="border border-[#393552] rounded-lg p-4 bg-[#232136]/60">
+          <h3 class="text-sm font-bold text-[#e0def4] mb-2">1. Primaire Terminal Interface</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-3 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_terminal" value="wezterm_primary" checked class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Primaire Terminal', 'WezTerm (Aanbevolen, Rose Pine Moon, 0.8 opacity, unfocused dimming)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">WezTerm (Aanbevolen)</div>
+                <div class="text-[11px] text-[#908caa]">Exact Kun Chen setup met Rose Pine Moon, 0.8 transparantie en dimmed unfocused windows.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-3 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_terminal" value="windows_terminal" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Primaire Terminal', 'Windows Terminal (fallback met Starship profiel)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">Windows Terminal</div>
+                <div class="text-[11px] text-[#908caa]">Maakt gebruik van Microsoft Windows Terminal met dezelfde PowerShell 7 profielinstellingen.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Decision 2 -->
+        <div class="border border-[#393552] rounded-lg p-4 bg-[#232136]/60">
+          <h3 class="text-sm font-bold text-[#e0def4] mb-2">2. Multi-Agent Session Backend voor Firstmate</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-3 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_backend" value="herdr_native" checked class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Firstmate Backend', 'Herdr Native Windows (tmux-alternatief voor Windows)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">Herdr (Native Windows)</div>
+                <div class="text-[11px] text-[#908caa]">Kun Chen's favoriete terminal multiplexer, draait native op Windows en beheert agent panes.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-3 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_backend" value="wsl_tmux" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Firstmate Backend', 'WSL2 tmux (volledig Unix tmux via WSL2 integratie)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">WSL2 tmux Backend</div>
+                <div class="text-[11px] text-[#908caa]">Gebruikt tmux binnen WSL2, handig als je complexere Unix process-event adapters draait.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Decision 3 -->
+        <div class="border border-[#393552] rounded-lg p-4 bg-[#232136]/60">
+          <h3 class="text-sm font-bold text-[#e0def4] mb-2">3. Merge Autonomie & Veiligheidsbeleid</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-3 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_merge" value="no_mistakes" checked class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Merge Autonomie', 'no-mistakes gate (AI review + test validatie vóór PR)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">no-mistakes gate</div>
+                <div class="text-[11px] text-[#908caa]">AI-driven review, tests en lint vóór merge.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-3 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_merge" value="direct_pr" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Merge Autonomie', 'direct-PR (opent GitHub PR ter menselijke goedkeuring)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">direct-PR</div>
+                <div class="text-[11px] text-[#908caa]">Opent een schone GitHub PR voor review.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-3 hover:border-[#c4a7e7] bg-[#232136]">
+              <input type="radio" name="dec_merge" value="yolo" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Merge Autonomie', '+yolo (volledig autonome lokale merge bij geslaagde tests)')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">+yolo autonomy</div>
+                <div class="text-[11px] text-[#908caa]">Merget direct lokaal als tests slagen.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- Right Column: Interactive Suggestion Drawer & Feedback Staging (1 col) -->
+    <aside class="space-y-6">
+
+      <!-- Active Selected Element Card -->
+      <div class="card bg-[#2a273f] border border-[#393552] p-5 shadow-xl sticky top-6">
+        <div class="flex items-center justify-between pb-3 border-b border-[#393552]">
+          <h3 class="font-bold text-sm text-[#e0def4] flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#9ccfd8] animate-pulse"></span>
+            Geselecteerd Element
+          </h3>
+          <span id="selected-badge" class="badge badge-xs badge-outline text-[#9ccfd8]">Klik een element</span>
+        </div>
+
+        <div id="selection-details" class="my-4 space-y-2">
+          <div class="text-xs font-semibold text-[#908caa]">Element ID:</div>
+          <div id="elem-id-display" class="font-mono text-xs text-[#c4a7e7] bg-[#232136] px-2 py-1 rounded">
+            (selecteer een tegel of knop links)
+          </div>
+          <div class="text-xs font-semibold text-[#908caa] mt-2">Titel / Context:</div>
+          <div id="elem-title-display" class="text-xs text-[#e0def4]">
+            Klik op een willekeurige tegel, stap of SVG-blok om een annotatie te koppelen.
+          </div>
+        </div>
+
+        <!-- Suggestion Input Form -->
+        <div class="space-y-3 pt-3 border-t border-[#393552]">
+          <label class="text-xs font-semibold text-[#e0def4] block">Type feedback / Suggestie:</label>
+          <select id="suggestion-type" class="select select-sm select-bordered w-full bg-[#232136] text-xs">
+            <option value="Aanpassing">✏️ Aanpassing gewenst</option>
+            <option value="Vraag">❓ Vraag over dit onderdeel</option>
+            <option value="Beslissing">🎯 Specifieke beslissing</option>
+            <option value="Goedkeuring">✅ Akkoord / Behouden</option>
+          </select>
+
+          <textarea id="suggestion-text" rows="3" class="textarea textarea-bordered w-full bg-[#232136] text-xs text-[#e0def4]" placeholder="Typ hier je opmerking of suggestie voor de agent..."></textarea>
+
+          <button onclick="addSuggestion()" class="btn btn-sm btn-primary w-full text-xs font-bold">
+            ＋ Voeg Suggestie Toe
+          </button>
+        </div>
+
+        <!-- Staged Suggestions Summary -->
+        <div class="mt-6 pt-4 border-t border-[#393552] space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-[#ebbcba]">Verzamelde Suggesties (<span id="suggestion-count">0</span>)</h4>
+            <button onclick="clearSuggestions()" class="text-[10px] text-[#908caa] hover:text-[#eb6f92]">Wissen</button>
+          </div>
+
+          <div id="staged-suggestions-list" class="max-h-48 overflow-y-auto space-y-2 text-xs">
+            <div class="text-[11px] text-[#908caa] italic">Nog geen suggesties toegevoegd.</div>
+          </div>
+
+          <button onclick="copyFeedbackForAgent()" class="btn btn-sm btn-outline text-[#c4a7e7] border-[#c4a7e7] w-full text-xs mt-2">
+            📋 Kopieer Feedback voor Agent
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <footer class="max-w-7xl mx-auto mt-12 pt-6 border-t border-[#393552] text-center text-xs text-[#908caa]">
+    Kun Chen Dotfiles & Agentic Engineering Suite · Lavish Interactive Artifact · Gelicenseerd onder MIT
+  </footer>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    let currentSelectedId = null;
+    let currentSelectedTitle = null;
+    let suggestions = [];
+    let decisions = {
+      'Primaire Terminal': 'WezTerm (Aanbevolen, Rose Pine Moon, 0.8 opacity, unfocused dimming)',
+      'Firstmate Backend': 'Herdr Native Windows (tmux-alternatief voor Windows)',
+      'Merge Autonomie': 'no-mistakes gate (AI review + test validatie vóór PR)'
+    };
+
+    function selectNode(id, title, description) {
+      // Clear previous selection
+      if (currentSelectedId) {
+        const prev = document.getElementById(currentSelectedId);
+        if (prev) prev.classList.remove('selected-node');
+      }
+
+      currentSelectedId = id;
+      currentSelectedTitle = title;
+
+      const elem = document.getElementById(id);
+      if (elem) elem.classList.add('selected-node');
+
+      document.getElementById('elem-id-display').textContent = id;
+      document.getElementById('elem-title-display').textContent = title + ": " + description;
+      document.getElementById('selected-badge').textContent = 'Geselecteerd';
+      document.getElementById('selected-badge').className = 'badge badge-xs badge-primary';
+    }
+
+    function recordDecision(key, value) {
+      decisions[key] = value;
+      console.log('Recorded decision:', key, value);
+    }
+
+    function addSuggestion() {
+      const text = document.getElementById('suggestion-text').value.trim();
+      const type = document.getElementById('suggestion-type').value;
+
+      if (!text) {
+        alert('Voer eerst een suggestie of opmerking in.');
+        return;
+      }
+
+      const entry = {
+        elementId: currentSelectedId || 'algemeen',
+        title: currentSelectedTitle || 'Algemeen overzicht',
+        type: type,
+        text: text,
+        timestamp: new Date().toLocaleTimeString()
+      };
+
+      suggestions.push(entry);
+      document.getElementById('suggestion-text').value = '';
+      renderSuggestions();
+    }
+
+    function renderSuggestions() {
+      const container = document.getElementById('staged-suggestions-list');
+      document.getElementById('suggestion-count').textContent = suggestions.length;
+
+      if (suggestions.length === 0) {
+        container.innerHTML = '<div class="text-[11px] text-[#908caa] italic">Nog geen suggesties toegevoegd.</div>';
+        return;
+      }
+
+      container.innerHTML = suggestions.map((s, idx) => `
+        <div class="p-2 rounded bg-[#232136] border border-[#393552] text-[11px]">
+          <div class="flex justify-between items-center text-[#c4a7e7] font-semibold mb-1">
+            <span>[${s.type}] ${s.elementId}</span>
+            <span class="text-[#908caa] text-[9px]">${s.timestamp}</span>
+          </div>
+          <div class="text-[#e0def4]">${s.text}</div>
+        </div>
+      `).join('');
+    }
+
+    function clearSuggestions() {
+      suggestions = [];
+      renderSuggestions();
+    }
+
+    function copyFeedbackForAgent() {
+      let output = "=== FEEDBACK VAN DE CAPTAIN / GEBRUIKER ===\n\n";
+      output += "## Gekozen Beslissingen:\n";
+      for (const [k, v] of Object.entries(decisions)) {
+        output += `- ${k}: ${v}\n`;
+      }
+      output += "\n## Specifieke Suggesties & Annotaties:\n";
+      if (suggestions.length === 0) {
+        output += "Geen losse suggesties toegevoegd (alles akkoord).\n";
+      } else {
+        suggestions.forEach(s => {
+          output += `- [${s.type}] op element '${s.elementId}' (${s.title}): ${s.text}\n`;
+        });
+      }
+
+      navigator.clipboard.writeText(output).then(() => {
+        alert("Feedback gekopieerd naar klembord! Plak het in de chat naar je agent.");
+      }).catch(err => {
+        console.error('Kopiëren mislukt:', err);
+        prompt("Kopieer deze feedback handmatig:", output);
+      });
+    }
+
+    // Default select first node on load
+    window.addEventListener('DOMContentLoaded', () => {
+      selectNode('node-windows-host', 'Windows 10/11 Host OS', 'Besturingssysteem met NTFS junctions, PowerShell 7 en winget package management.');
+    });
+  </script>
+</body>
+</html>

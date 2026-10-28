@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 - Lavish-AXI Review Engine | Interactieve Visualisatie & Review Loop</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/daisyui.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daisyui@5.5.19/themes.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.2.4/dist/index.global.js"></script>
+  <style>
+    :root {
+      --rp-base: #232136;
+      --rp-surface: #2a273f;
+      --rp-overlay: #393552;
+      --rp-muted: #6e6a86;
+      --rp-subtle: #908caa;
+      --rp-text: #e0def4;
+      --rp-love: #eb6f92;
+      --rp-gold: #f6c177;
+      --rp-rose: #ebbcba;
+      --rp-pine: #3e8fb0;
+      --rp-foam: #9ccfd8;
+      --rp-iris: #c4a7e7;
+    }
+    body {
+      background-color: var(--rp-base);
+      color: var(--rp-text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .clickable-node {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .clickable-node:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(156, 207, 216, 0.2);
+      border-color: var(--rp-foam) !important;
+    }
+    .selected-node {
+      border-color: var(--rp-foam) !important;
+      box-shadow: 0 0 0 3px rgba(156, 207, 216, 0.3);
+    }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+  <header class="max-w-7xl mx-auto mb-8">
+    <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#393552] pb-6">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 text-xs font-bold rounded bg-[#393552] text-[#9ccfd8] border border-[#9ccfd8]/30">LAVISH 02</span>
+          <span class="text-xs text-[#908caa]">dsvleeuw/Kun · Lavish-AXI Review Engine</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-extrabold mt-1 text-[#e0def4] tracking-tight">
+          Lavish-AXI: Visuele Review Loop & Artefacten
+        </h1>
+        <p class="text-sm text-[#908caa] mt-1">
+          HTML is the new markdown. Geen lappen tekst in de terminal, maar interactieve browser artefacten die je kunt annoteren.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href="00_OVERZICHT_ARCHITECTUUR.html" class="btn btn-sm btn-outline text-[#c4a7e7] border-[#393552]">00 Overzicht</a>
+        <a href="01_FIRSTMATE_WINDOWS_CREW.html" class="btn btn-sm btn-outline text-[#c4a7e7] border-[#393552]">01 Firstmate Fleet</a>
+        <a href="02_LAVISH_AXI_WORKFLOW.html" class="btn btn-sm btn-primary">02 Lavish AXI</a>
+        <a href="03_WINDOWS_DEV_SETUP.html" class="btn btn-sm btn-outline text-[#f6c177] border-[#393552]">03 Setup Stappen</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+    <div class="lg:col-span-2 space-y-8">
+
+      <!-- The 4 Lavish Superpowers -->
+      <section id="section-superpowers" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div id="sp-1" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5" onclick="selectNode('sp-1', 'Element Pinpointing', 'In Lavish klik je op een specifiek HTML-element om gerichte feedback te geven. De agent ontvangt direct de element-ID en context.')">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🎯</span>
+            <div>
+              <h3 class="font-bold text-sm text-[#e0def4]">1. Element Pinpointing</h3>
+              <p class="text-xs text-[#908caa]">Wijs direct aan wat je bedoelt zonder vage beschrijvingen.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="sp-2" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5" onclick="selectNode('sp-2', 'Tekst Selectie & Suggestie', 'Markeer een stukje tekst in de browser en typ een vervanging. Lavish genereert een schone diff-suggestie voor de agent.')">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">✏️</span>
+            <div>
+              <h3 class="font-bold text-sm text-[#e0def4]">2. Tekst Suggesties</h3>
+              <p class="text-xs text-[#908caa]">Highlight tekst en typ meteen een betere formulering.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="sp-3" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5" onclick="selectNode('sp-3', 'Mermaid Whiteboards', 'Elk Mermaid diagram in een artefact wordt in Lavish automatisch een interactief Excalidraw whiteboard dat je direct kunt verslepen en bewerken.')">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🎨</span>
+            <div>
+              <h3 class="font-bold text-sm text-[#e0def4]">3. Mermaid Whiteboards</h3>
+              <p class="text-xs text-[#908caa]">Flowcharts worden direct Excalidraw whiteboards.</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="sp-4" class="clickable-node card bg-[#2a273f] border border-[#393552] p-5" onclick="selectNode('sp-4', 'Token-Efficiënte TOON Loop', 'Feedback wordt samengevat in beknopt TOON-formaat. Geen tokens verspillen aan overbodige context.')">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">⚡</span>
+            <div>
+              <h3 class="font-bold text-sm text-[#e0def4]">4. Token-Efficiënte Loop</h3>
+              <p class="text-xs text-[#908caa]">Beknopte feedback bespaart duizenden tokens per iteratie.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Interactive Demo Component -->
+      <section id="section-live-demo" class="card bg-[#2a273f] border border-[#393552] p-6 shadow-xl space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-[#9ccfd8]">Interactieve Mockup Playground</h2>
+            <p class="text-xs text-[#908caa]">Klik op de elementen in deze voorbeeld-app om te zien hoe Lavish elementen pinpoint:</p>
+          </div>
+          <span class="badge badge-sm badge-outline text-[#9ccfd8]">Live Demo</span>
+        </div>
+
+        <!-- Sample Mockup Interface -->
+        <div class="border border-[#393552] rounded-xl p-5 bg-[#232136] space-y-4">
+          <div id="demo-mockup-header" class="clickable-node flex items-center justify-between p-3 rounded-lg bg-[#2a273f] border border-[#393552]" onclick="selectNode('demo-mockup-header', 'Applicatie Header Bar', 'Bovenbalk met navigatie en status indicator.')">
+            <div class="font-bold text-sm text-[#e0def4]">🚀 Klanten Portaal v2.4</div>
+            <div class="flex gap-2">
+              <span id="demo-status-badge" class="clickable-node badge badge-xs badge-success text-black font-semibold" onclick="selectNode('demo-status-badge', 'Status Indicator Badge', 'Groene statusbadge: Online.')">Online</span>
+              <span id="demo-user-pill" class="clickable-node text-xs text-[#908caa] px-2 py-0.5 rounded bg-[#393552]" onclick="selectNode('demo-user-pill', 'Gebruiker Pill', 'Toont huidige ingelogde gebruiker.')">Daniël (Admin)</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div id="demo-card-kpi-1" class="clickable-node p-4 rounded-lg bg-[#2a273f] border border-[#393552]" onclick="selectNode('demo-card-kpi-1', 'KPI Kaart: Totale Omzet', 'Toont actuele kwartaalomzet met trendindicator.')">
+              <div class="text-xs text-[#908caa]">Totale Omzet Q4</div>
+              <div class="text-2xl font-black text-[#f6c177] mt-1">€ 142.850</div>
+              <div class="text-[11px] text-[#9ccfd8] mt-1">↑ +14.2% t.o.v. begroting</div>
+            </div>
+
+            <div id="demo-card-kpi-2" class="clickable-node p-4 rounded-lg bg-[#2a273f] border border-[#393552]" onclick="selectNode('demo-card-kpi-2', 'KPI Kaart: Actieve Taken', 'Toont aantal openstaande taken in sprint.')">
+              <div class="text-xs text-[#908caa]">Actieve Taken</div>
+              <div class="text-2xl font-black text-[#c4a7e7] mt-1">18 Taken</div>
+              <div class="text-[11px] text-[#908caa] mt-1">3 wachten op review</div>
+            </div>
+          </div>
+
+          <div id="demo-action-bar" class="clickable-node p-3 rounded-lg bg-[#2a273f] border border-[#393552] flex justify-between items-center" onclick="selectNode('demo-action-bar', 'Actiebalk & Knoppen', 'Container met primaire en secundaire knoppen.')">
+            <span class="text-xs text-[#908caa]">Selecteer een rapport om te downloaden:</span>
+            <div class="flex gap-2">
+              <button id="demo-btn-export" class="clickable-node btn btn-xs btn-primary" onclick="event.stopPropagation(); selectNode('demo-btn-export', 'Exporteer Knop', 'Primaire actieknop voor PDF export.');">Exporteer PDF</button>
+              <button id="demo-btn-filter" class="clickable-node btn btn-xs btn-outline" onclick="event.stopPropagation(); selectNode('demo-btn-filter', 'Filter Knop', 'Filterknop voor datumselectie.');">Filteren</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Decisions for Lavish Configuration -->
+      <section id="section-lavish-decisions" class="card bg-[#2a273f] border border-[#393552] p-6 shadow-xl space-y-5">
+        <h2 class="text-xl font-bold text-[#f6c177]">⚡ Lavish Configuratiekeuzes</h2>
+
+        <div class="border border-[#393552] rounded-lg p-4 bg-[#232136]/60">
+          <h3 class="text-sm font-bold text-[#e0def4] mb-2">Browser Launch Voorkeur</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#9ccfd8] bg-[#232136]">
+              <input type="radio" name="dec_browser" value="auto_open" checked class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Lavish Browser Launch', 'Automatisch openen in standaard browser')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">Automatisch Openen (Aanbevolen)</div>
+                <div class="text-[11px] text-[#908caa]">Opent het HTML artefact direct in je browser bij <code>lavish &lt;bestand&gt;</code>.</div>
+              </div>
+            </label>
+            <label class="cursor-pointer border border-[#393552] p-3 rounded-lg flex items-start gap-2 hover:border-[#9ccfd8] bg-[#232136]">
+              <input type="radio" name="dec_browser" value="headless" class="radio radio-primary radio-sm mt-1" onchange="recordDecision('Lavish Browser Launch', 'Alleen lokale URL tonen in terminal')">
+              <div>
+                <div class="text-xs font-bold text-[#e0def4]">Stille Modus (Alleen URL)</div>
+                <div class="text-[11px] text-[#908caa]">Start de lokale server en print de URL (http://localhost:port).</div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Right Column: Interactive Suggestion Drawer -->
+    <aside class="space-y-6">
+      <div class="card bg-[#2a273f] border border-[#393552] p-5 shadow-xl sticky top-6">
+        <div class="flex items-center justify-between pb-3 border-b border-[#393552]">
+          <h3 class="font-bold text-sm text-[#e0def4] flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#9ccfd8] animate-pulse"></span>
+            Pinpoint Element
+          </h3>
+          <span id="selected-badge" class="badge badge-xs badge-outline text-[#9ccfd8]">Klik een element</span>
+        </div>
+
+        <div id="selection-details" class="my-4 space-y-2">
+          <div class="text-xs font-semibold text-[#908caa]">Element ID:</div>
+          <div id="elem-id-display" class="font-mono text-xs text-[#9ccfd8] bg-[#232136] px-2 py-1 rounded">
+            demo-card-kpi-1
+          </div>
+          <div class="text-xs font-semibold text-[#908caa] mt-2">Element Context:</div>
+          <div id="elem-title-display" class="text-xs text-[#e0def4]">
+            KPI Kaart: Totale Omzet
+          </div>
+        </div>
+
+        <div class="space-y-3 pt-3 border-t border-[#393552]">
+          <label class="text-xs font-semibold text-[#e0def4] block">Jouw suggestie of annotatie:</label>
+          <select id="suggestion-type" class="select select-sm select-bordered w-full bg-[#232136] text-xs">
+            <option value="UI Wijziging">🎨 UI / Styling aanpassing</option>
+            <option value="Tekst Wijziging">✏️ Tekstuele correctie</option>
+            <option value="Functionaliteit">⚡ Functionaliteit toevoegen</option>
+          </select>
+
+          <textarea id="suggestion-text" rows="3" class="textarea textarea-bordered w-full bg-[#232136] text-xs text-[#e0def4]" placeholder="Bijv: 'Maak de omzetkaart doorklikbaar naar de maanddetail view'"></textarea>
+
+          <button onclick="addSuggestion()" class="btn btn-sm btn-primary w-full text-xs font-bold">
+            ＋ Voeg Suggestie Toe
+          </button>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-[#393552] space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-[#ebbcba]">Staged Annotaties (<span id="suggestion-count">0</span>)</h4>
+            <button onclick="clearSuggestions()" class="text-[10px] text-[#908caa] hover:text-[#eb6f92]">Wissen</button>
+          </div>
+
+          <div id="staged-suggestions-list" class="max-h-48 overflow-y-auto space-y-2 text-xs">
+            <div class="text-[11px] text-[#908caa] italic">Nog geen annotaties toegevoegd.</div>
+          </div>
+
+          <button onclick="copyFeedbackForAgent()" class="btn btn-sm btn-outline text-[#9ccfd8] border-[#9ccfd8] w-full text-xs mt-2">
+            📋 Kopieer Feedback voor Agent
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script>
+    let currentSelectedId = 'demo-card-kpi-1';
+    let currentSelectedTitle = 'KPI Kaart: Totale Omzet';
+    let suggestions = [];
+    let decisions = {
+      'Lavish Browser Launch': 'Automatisch openen in standaard browser'
+    };
+
+    function selectNode(id, title, description) {
+      if (currentSelectedId) {
+        const prev = document.getElementById(currentSelectedId);
+        if (prev) prev.classList.remove('selected-node');
+      }
+
+      currentSelectedId = id;
+      currentSelectedTitle = title;
+
+      const elem = document.getElementById(id);
+      if (elem) elem.classList.add('selected-node');
+
+      document.getElementById('elem-id-display').textContent = id;
+      document.getElementById('elem-title-display').textContent = title + (description ? ": " + description : "");
+      document.getElementById('selected-badge').textContent = 'Geselecteerd';
+      document.getElementById('selected-badge').className = 'badge badge-xs badge-primary';
+    }
+
+    function recordDecision(key, value) {
+      decisions[key] = value;
+    }
+
+    function addSuggestion() {
+      const text = document.getElementById('suggestion-text').value.trim();
+      const type = document.getElementById('suggestion-type').value;
+
+      if (!text) {
+        alert('Voer eerst een suggestie in.');
+        return;
+      }
+
+      suggestions.push({
+        elementId: currentSelectedId,
+        title: currentSelectedTitle,
+        type: type,
+        text: text,
+        timestamp: new Date().toLocaleTimeString()
+      });
+
+      document.getElementById('suggestion-text').value = '';
+      renderSuggestions();
+    }
+
+    function renderSuggestions() {
+      const container = document.getElementById('staged-suggestions-list');
+      document.getElementById('suggestion-count').textContent = suggestions.length;
+
+      if (suggestions.length === 0) {
+        container.innerHTML = '<div class="text-[11px] text-[#908caa] italic">Nog geen annotaties toegevoegd.</div>';
+        return;
+      }
+
+      container.innerHTML = suggestions.map(s => `
+        <div class="p-2 rounded bg-[#232136] border border-[#393552] text-[11px]">
+          <div class="flex justify-between items-center text-[#9ccfd8] font-semibold mb-1">
+            <span>[${s.type}] #${s.elementId}</span>
+            <span class="text-[#908caa] text-[9px]">${s.timestamp}</span>
+          </div>
+          <div class="text-[#e0def4]">${s.text}</div>
+        </div>
+      `).join('');
+    }
+
+    function clearSuggestions() {
+      suggestions = [];
+      renderSuggestions();
+    }
+
+    function copyFeedbackForAgent() {
+      let output = "=== LAVISH-AXI REVIEW FEEDBACK ===\n\n";
+      output += "## Voorkeuren:\n";
+      for (const [k, v] of Object.entries(decisions)) {
+        output += `- ${k}: ${v}\n`;
+      }
+      output += "\n## Geprikte Elementen & Annotaties:\n";
+      if (suggestions.length === 0) {
+        output += "Geen specifieke annotaties (alles goedgekeurd).\n";
+      } else {
+        suggestions.forEach(s => {
+          output += `- [${s.type}] op #${s.elementId} (${s.title}): ${s.text}\n`;
+        });
+      }
+
+      navigator.clipboard.writeText(output).then(() => {
+        alert("Feedback gekopieerd naar klembord!");
+      }).catch(err => {
+        prompt("Kopieer deze feedback handmatig:", output);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      selectNode('demo-card-kpi-1', 'KPI Kaart: Totale Omzet', 'Toont actuele kwartaalomzet met trendindicator.');
+    });
+  </script>
+</body>
+</html>

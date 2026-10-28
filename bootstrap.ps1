@@ -279,6 +279,18 @@ $herdrSrcDir = Join-Path $DotfilesDir "home\.config\herdr"
 $herdrDstDir = Join-Path $HomeDir ".config\herdr"
 Link-Or-Copy-Directory -Source $herdrSrcDir -Target $herdrDstDir
 
+# 9. Firstmate Multi-Agent Distro
+Write-Host "  -> Firstmate agent distro" -ForegroundColor Cyan
+$fmSrcDir = Join-Path $DotfilesDir "firstmate"
+$fmDstDir = Join-Path $HomeDir ".firstmate"
+Link-Or-Copy-Directory -Source $fmSrcDir -Target $fmDstDir
+
+# 10. Lavish-AXI Review Engine
+Write-Host "  -> Lavish-AXI review engine" -ForegroundColor Cyan
+$lavishSrcDir = Join-Path $DotfilesDir "lavish-axi"
+$lavishDstDir = Join-Path $HomeDir ".lavish-axi"
+Link-Or-Copy-Directory -Source $lavishSrcDir -Target $lavishDstDir
+
 # =============================================================================
 # Step 4: Kun Chen's Principal Engineer Agent Tooling
 # =============================================================================
@@ -302,11 +314,16 @@ Write-Host "Next steps:" -ForegroundColor White
 Write-Host "  1. Launch WezTerm (start menu or run 'wezterm')" -ForegroundColor Gray
 Write-Host "  2. In WezTerm, launch Neovim ('nvim') to auto-install lazy plugins" -ForegroundColor Gray
 Write-Host "  3. Use high-agency aliases in PowerShell:" -ForegroundColor Gray
-Write-Host "       cc    -> claude --dangerously-skip-permissions" -ForegroundColor Gray
-Write-Host "       co    -> codex --full-auto" -ForegroundColor Gray
-Write-Host "       add   -> git add ." -ForegroundColor Gray
-Write-Host "       push  -> git push" -ForegroundColor Gray
-Write-Host "       pull  -> git pull" -ForegroundColor Gray
-Write-Host "       m     -> git switch main" -ForegroundColor Gray
-Write-Host "       ..    -> cd .." -ForegroundColor Gray
-Write-Host "  4. For future changes, edit files in ~/.dotfiles and run: .\rebuild.ps1`n" -ForegroundColor Gray
+Write-Host "       cc     -> claude --dangerously-skip-permissions" -ForegroundColor Gray
+Write-Host "       co     -> codex --full-auto" -ForegroundColor Gray
+Write-Host "       fm     -> Firstmate multi-agent fleet (fm status, fm start)" -ForegroundColor Gray
+Write-Host "       lavish -> Open HTML artifacts in Lavish Editor" -ForegroundColor Gray
+Write-Host "       add    -> git add ." -ForegroundColor Gray
+Write-Host "       push   -> git push" -ForegroundColor Gray
+Write-Host "       pull   -> git pull" -ForegroundColor Gray
+Write-Host "       m      -> git switch main" -ForegroundColor Gray
+Write-Host "       ..     -> cd .." -ForegroundColor Gray
+Write-Host "  4. Interactive Review & Blueprints:" -ForegroundColor Gray
+Write-Host "       lavish .\00_OVERZICHT_ARCHITECTUUR.html" -ForegroundColor Gray
+Write-Host "       lavish .\01_FIRSTMATE_WINDOWS_CREW.html" -ForegroundColor Gray
+Write-Host "  5. For future changes, edit files in ~/.dotfiles and run: .\rebuild.ps1`n" -ForegroundColor Gray

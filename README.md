@@ -13,9 +13,29 @@
   /></a>
 </p>
 
-Een complete, 100% native Windows-port van [Kun Chen's dotfiles](https://github.com/kunchenguid/dotfiles) gecombineerd met Kun's Principal Engineer agent-stack ([kunchenguid/kun](https://github.com/kunchenguid/kun)).
+De ultieme Windows coding repository voor **agentic engineering**, gebaseerd op het complete ecosysteem van Kun Chen (voormalig L8 Principal Engineer bij Meta, Microsoft en Atlassian):
+- **Dotfiles**: WezTerm, Neovim (transparant), PowerShell 7, Starship prompt en Hack Nerd Font.
+- **Firstmate Distro**: Multi-agent fleet orchestratie ("Talk to one agent. Ship with a crew") met worktrees en Herdr.
+- **Lavish-AXI**: Browser-gebaseerde interactieve review van HTML-artefacten, element pinpointing en Mermaid whiteboards.
+- **Kun Tooling**: `/kun` skill, `gh-axi`, `quota-axi`, `gnhf`, `treehouse` en de levende kennisbank.
 
-Eén repository, één PowerShell-commando (`bootstrap.ps1`), en een Windows 10/11 machine is direct ingericht voor moderne **agentic engineering** met WezTerm, Neovim, PowerShell 7, Starship, Claude Code, Codex, Pi en Kun's AXI tools.
+---
+
+## 🎨 Interactieve Lavish Artefacten (00 Prefix)
+
+Deze repository bevat interactieve **Lavish HTML artefacten** waarin je alle stappen visueel kunt bekijken, op elementen kunt klikken, beslissingen kunt kiezen en gestructureerde suggesties kunt achterlaten voor je agents:
+
+| Bestand | Wat het visualiseert | Interactieve Mogelijkheden |
+|---|---|---|
+| **[`00_OVERZICHT_ARCHITECTUUR.html`](00_OVERZICHT_ARCHITECTUUR.html)** | Master Architectuur & Windows Stack Blueprint | Interactief SVG schema, beslissingsmatrix (terminal, backend, merge autonomie), element pinpointing drawer |
+| **[`01_FIRSTMATE_WINDOWS_CREW.html`](01_FIRSTMATE_WINDOWS_CREW.html)** | Firstmate Multi-Agent Fleet & Worktrees | Spawnen van parallelle crewmates, Herdr sessies, worktree isolatie, concurrency keuzes |
+| **[`02_LAVISH_AXI_WORKFLOW.html`](02_LAVISH_AXI_WORKFLOW.html)** | Lavish-AXI Review Engine & Whiteboards | Live demo playground, tekstmarkering, Mermaid whiteboards, TOON feedback |
+| **[`03_WINDOWS_DEV_SETUP.html`](03_WINDOWS_DEV_SETUP.html)** | Step-by-Step Windows Uitrol & Verificatie | Installatievolgorde, winget commando's, verificatietabel, profiel checks |
+
+> **Tip:** Open elk bestand direct in je browser of via het `lavish` commando:
+> ```powershell
+> lavish .\00_OVERZICHT_ARCHITECTUUR.html
+> ```
 
 ---
 
@@ -30,107 +50,67 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\bootstrap.ps1
 ```
 
-`bootstrap.ps1` voert automatisch uit:
-1. **Winget pakketinstallatie**: PowerShell 7 (`pwsh`), WezTerm, Neovim, ripgrep, fd, fzf, jq, lazygit, Starship prompt, Hack Nerd Font en Node.js LTS.
-2. **Koppeling configuraties**: Maakt NTFS-junctions en symlinks aan naar je gebruikersmap (`$HOME` / `~`).
-3. **PowerShell 7 profiel**: Configureert Zsh-stijl autosuggesties (accepteren met `Ctrl+F`), syntax highlighting in Rosé Pine Moon stijl, Starship prompt en high-agency aliassen (`cc`, `co`, `add`, `push`, `pull`, `m`, `..`).
-4. **Agent beleid (`AGENTS.md`)**: Universeel gekoppeld aan Claude Code, OpenAI Codex en OpenCode.
-5. **Kun Chen Tooling**: Installeert de `/kun` skill, `gh-axi`, `quota-axi`, `lavish-axi` en synchroniseert Kun's levende documentatie (`ENTRY`, `TOOLS`, `OPINIONS`, `VOICE`) naar `~/.cache/kun`.
+`bootstrap.ps1` verzorgt de complete installatie:
+1. **Winget pakketten**: Installeert PowerShell 7 (`pwsh`), WezTerm, Neovim, ripgrep (`rg`), `fd`, `fzf`, `jq`, `lazygit`, Starship prompt, Hack Nerd Font en Node.js LTS.
+2. **Koppeling configuraties**: Maakt NTFS-junctions en symlinks aan naar je Windows `$HOME` (`C:\Users\<user>`), waardoor bewerkingen in de repository direct live actief zijn (*edit-in-place*).
+3. **PowerShell 7 profiel**: Configureert Zsh-stijl autosuggesties (`Ctrl+F` om te accepteren), syntax highlighting in Rosé Pine Moon-kleuren, Starship prompt en Kun's aliassen.
+4. **Firstmate & Lavish Launchers**: Activeert de `fm` en `lavish` commandoregels direct in PowerShell.
+5. **Agent-beleid (`AGENTS.md`)**: Universeel gekoppeld aan Claude Code, OpenAI Codex en OpenCode.
+6. **Kun Tooling**: Installeert de `/kun` skill, `gh-axi`, `quota-axi`, `lavish-axi`, `gnhf` en synchroniseert Kun's levende documentatie naar `~/.cache/kun`.
 
 ---
 
-## 📦 Wat je krijgt
+## 📦 Wat er allemaal in zit
 
 | Component | Configuratie & Eigenschappen |
 |---|---|
 | **Terminal** | **WezTerm** in Rosé Pine Moon thema, Hack Nerd Font (15pt), 0.8 opacity, unfocused window dimming, start direct in PowerShell 7 (`pwsh.exe`). |
-| **Editor** | **Neovim** met transparante achtergrond op Windows, lazy.nvim, Oil.nvim (`<leader>e`), Snacks.picker (`<leader>f` files, `<leader>s` grep, `<leader>b` buffers, `gd` definitions), Neogit & Diffview (`<leader>g`), Gitsigns blame. |
+| **Editor** | **Neovim** met transparante achtergrond op Windows, lazy.nvim, Oil.nvim (`<leader>e`), Snacks.picker (`<leader>f` files, `<leader>s` grep, `<leader>b` buffers, `gd` definities), Neogit & Diffview (`<leader>g`), Gitsigns blame. |
 | **Shell** | **PowerShell 7** met PSReadLine autosuggesties (`Ctrl+F`), Rosé Pine Moon syntaxkleuren en Starship prompt (`[❯](purple)` / `[❯](red)`). |
-| **Aliassen** | `cc` (`claude --dangerously-skip-permissions`), `co` (`codex --full-auto`), `add` (`git add .`), `push` (`git push`), `pull` (`git pull`), `m` (`git switch main`), `..` (`cd ..`), `lg` (`lazygit`), `v` (`nvim`). |
-| **Agent Policies** | **`AGENTS.md`** voor Claude, Codex en OpenCode (geen em dash "—", geen automatische co-author spam, obsessie met pixel-perfect UI, end-to-end bug reproductie). |
+| **Firstmate Fleet** | **`firstmate/`**: Praat met 1 First Mate agent die parallelle werkers in geïsoleerde git worktrees aanstuurt via Herdr of tmux. Commando: `fm status`, `fm start`. |
+| **Lavish-AXI** | **`lavish-axi/`**: Visuele HTML artefact review, annotaties en Mermaid whiteboards. Commando: `lavish <bestand.html>`. |
+| **Aliassen** | `cc` (`claude --dangerously-skip-permissions`), `co` (`codex --full-auto`), `fm` (Firstmate), `lavish` (Lavish Editor), `add`, `push`, `pull`, `m` (`git switch main`), `..` (`cd ..`), `lg` (`lazygit`), `v` (`nvim`). |
+| **Agent Policies** | **`AGENTS.md`** voor Claude, Codex en OpenCode (geen em dash "-", geen automatische co-author spam, obsessie met pixel-perfect UI, end-to-end bug reproductie). |
 | **Claude Code** | `dark-ansi` thema met live statusregel: modelnaam en contextvenster gebruik (`Claude 3.7 Sonnet \| ctx: 42% used`) via een cross-platform runner. |
 | **Pi Coding Agent** | **Pi Calm** standalone extensie (geanimeerd bootje op blauw water, verbergt ruis van tools en thinking blocks), Rosé Pine Moon thema, terminal status spinner, gepinde packages (`pi-web-access@0.14.0`, `codex-fast-mode@0.2.6`). |
 | **Kun Tooling** | **`/kun`** skill (`npx skills add kunchenguid/kun -g`), `gh-axi`, `quota-axi`, `lavish-axi`, `gnhf`, `treehouse` en lokale kennisbank. |
 
 ---
 
-## 🧠 Kun Chen's Principal Engineer Stack (`/kun`)
+## ⚓ Firstmate op Windows (`firstmate/`)
 
-Kun Chen (voormalig L8 Principal Engineer bij Meta, Microsoft en Atlassian) ontwikkelde een geavanceerde set AXI (Agent eXperience Interface) tools en richtlijnen voor softwareontwikkeling met AI-agents:
+Firstmate is een agent distro waarmee je praat met één liaison agent (de First Mate) die zelfstandig een team van gespecialiseerde crewmates aanstuurt:
+```powershell
+# Bekijk de status van je vloot en tools
+fm status
 
-### Direct Kun oproepen in je coding agent:
-```sh
-/kun how should I improve my AGENTS.md?
-/kun fix this nasty bug!
-/kun how would you architect this service?
+# Start de First Mate supervisor sessie in Claude Code
+fm start claude
+
+# Bekijk overzicht van actieve taken en PRs
+fm bearings
 ```
 
-### Belangrijkste AXI tools inbegrepen:
-- **`gh-axi`**: Token-efficiënte GitHub CLI voor agents met TOON output.
-- **`quota-axi`**: Bekijk je resterende LLM-quota en gebruiksvensters over Claude, Codex, Cursor en Grok (`quota-axi`).
-- **`lavish-axi`**: Lokale browser editor voor interactieve HTML-artefacten en Mermaid diagrammen van agents.
-- **`gnhf`**: *"Good night, have fun"* — autonome overnight coding loop met automatische rollbacks bij fouten.
-- **`treehouse`**: Git worktree pooling voor parallel werkende agents.
+Elke worker krijgt een eigen geïsoleerde git worktree (`treehouse`), waardoor meerdere agents gelijktijdig aan dezelfde repository kunnen werken zonder mergeconflicten.
 
-Voor meer details, zie [`kun-tooling/README.md`](kun-tooling/README.md).
+---
+
+## 🎨 Lavish-AXI Review Engine (`lavish-axi/`)
+
+In plaats van ellenlange teksten in de terminal levert je agent interactieve HTML artefacten die je opent met:
+```powershell
+lavish .\00_OVERZICHT_ARCHITECTUUR.html
+```
+- **Klik op elementen** om gerichte feedback achter te laten.
+- **Markeer tekst** om direct een herschrijving voor te stellen.
+- **Mermaid diagrammen** worden interactieve whiteboards die je visueel kunt aanpassen.
+- **Klik op "Kopieer Feedback voor Agent"** om de samenvatting in één keer terug te sturen.
 
 ---
 
 ## 🔄 Dagelijks Gebruik
 
-Omdat alle bestanden via links aan deze repository zijn gekoppeld:
-- Pas je bestanden direct aan in `~/.dotfiles/home/`.
-- Voer bij wijzigingen in PowerShell uit:
-  ```powershell
-  .\rebuild.ps1
-  ```
-- Werk Kun's levende kennisbank bij met:
-  ```powershell
-  kun pull
-  ```
+- **Bestanden aanpassen**: Pas bestanden aan in `~/.dotfiles/home/` en voer `rebuild` uit.
+- **Kennisbank updaten**: Voer `kun pull` uit in PowerShell om de nieuwste meningen en tools van Kun Chen binnen te halen.
 
----
-
-## 📁 Repository Structuur
-
-```
-Kun/
-├── AGENTS.md                  # Projectrichtlijnen voor agents
-├── CLAUDE.md                  # Importeert AGENTS.md
-├── LICENSE                    # MIT No Attribution License
-├── README.md                  # Dit document
-├── WINDOWS_SETUP.md           # Uitgebreide Windows handleiding & troubleshooting
-├── bootstrap.ps1              # Volledig Windows installatiescript (winget + links + profielen)
-├── rebuild.ps1                # Re-sync script voor Windows
-├── home/                      # De daadwerkelijke configuratiebestanden
-│   ├── AGENTS.md              # Kun's wereldwijde agent instructies
-│   ├── .claude/
-│   │   ├── settings.json      # Claude Code instellingen (statusLine met ctx % en model)
-│   │   └── statusline.js      # Cross-platform Node statusline helper
-│   ├── .config/
-│   │   ├── herdr/             # Herdr workspace multiplexer config
-│   │   ├── nvim/              # Neovim (lazy.nvim, rose-pine moon, snacks, oil, neogit)
-│   │   ├── powershell/        # PowerShell 7 profiel met PSReadLine & aliassen
-│   │   ├── starship.toml      # Starship prompt configuratie
-│   │   └── wezterm/           # WezTerm terminal configuratie (rose-pine-moon, pwsh)
-│   └── .pi/
-│       └── agent/             # Pi agent (settings, models, themes, Pi Calm extensie)
-├── kun-tooling/               # Kun Chen's Principal Engineer kennisbank & tools
-│   ├── README.md              # Uitleg over Kun's tooling
-│   ├── setup-kun-tools.ps1    # Installatiescript voor AXI tools & /kun skill
-│   ├── ENTRY.md               # Kun's instructies voor taakoplossing
-│   ├── TOOLS.md               # Overzicht van alle open source tools
-│   ├── OPINIONS.md            # Kun's visie op architecturen, agents en engineering
-│   ├── VOICE.md               # Kun's schrijf- en communicatiestijl
-│   └── scripts/
-│       └── pull-kun.mjs       # Incrementeel sync-script voor Kun's living docs
-└── tests/
-    ├── validate-configs.mjs   # Geautomatiseerde configuratievalidatie
-    └── test-statusline.mjs    # Testsuite voor de Claude statusregel
-```
-
----
-
-## 📄 Licentie
-
-Gelicentieerd onder **MIT No Attribution** (zie `LICENSE`), in lijn met het originele dotfiles-project van Kun Chen.
+Zie [`WINDOWS_SETUP.md`](WINDOWS_SETUP.md) voor de complete handleiding en troubleshooting.

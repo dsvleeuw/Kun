@@ -64,7 +64,44 @@ if (-not (Get-Command vim -ErrorAction SilentlyContinue)) {
     Set-Alias -Name vim -Value nvim
 }
 
-# 6. Quick Kun helper
+# 6. Firstmate & Lavish Launchers
+function fm {
+    $fmScript = Join-Path $HOME ".dotfiles\firstmate\bin\fm.ps1"
+    if (-not (Test-Path $fmScript)) {
+        $fmScript = Join-Path $PSScriptRoot "..\..\firstmate\bin\fm.ps1"
+    }
+    if (Test-Path $fmScript) {
+        & $fmScript @args
+    } else {
+        Write-Warning "Firstmate script not found at $fmScript"
+    }
+}
+
+function lavish {
+    $lavishScript = Join-Path $HOME ".dotfiles\lavish-axi\bin\lavish.ps1"
+    if (-not (Test-Path $lavishScript)) {
+        $lavishScript = Join-Path $PSScriptRoot "..\..\lavish-axi\bin\lavish.ps1"
+    }
+    if (Test-Path $lavishScript) {
+        & $lavishScript @args
+    } else {
+        npx -y lavish-axi @args
+    }
+}
+
+function rebuild {
+    $rebuildScript = Join-Path $HOME ".dotfiles\rebuild.ps1"
+    if (-not (Test-Path $rebuildScript)) {
+        $rebuildScript = Join-Path $PSScriptRoot "..\..\rebuild.ps1"
+    }
+    if (Test-Path $rebuildScript) {
+        & $rebuildScript @args
+    } else {
+        Write-Warning "rebuild.ps1 not found at $rebuildScript"
+    }
+}
+
+# 7. Quick Kun helper
 function kun {
     param([Parameter(ValueFromRemainingArguments = $true)][string[]]$KunArgs)
     $kunScript = Join-Path $HOME ".dotfiles\kun-tooling\scripts\pull-kun.mjs"
@@ -74,13 +111,14 @@ function kun {
     if ($KunArgs.Count -eq 0) {
         Write-Host "Kun Agentic Engineering Toolkit" -ForegroundColor Magenta
         Write-Host "  kun pull     - Sync living docs (ENTRY, TOOLS, OPINIONS, VOICE) to ~/.cache/kun"
+        Write-Host "  fm           - Firstmate multi-agent fleet status"
+        Write-Host "  lavish       - Open HTML artifacts in Lavish Editor"
         Write-Host "  cc           - claude --dangerously-skip-permissions"
         Write-Host "  co           - codex --full-auto"
-        Write-Host "  rebuild      - Apply dotfiles changes"
+        Write-Host "  rebuild      - Re-apply dotfiles changes"
     } elseif ($KunArgs[0] -eq "pull" -and (Test-Path $kunScript)) {
         node $kunScript
     } else {
-        # Check if skills is installed
         if (Get-Command skills -ErrorAction SilentlyContinue) {
             skills @KunArgs
         } else {
